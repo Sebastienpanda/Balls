@@ -53,7 +53,7 @@ int main()
     Pen BG = graphics.create_pen(120, 40, 60);
     Pen WHITE = graphics.create_pen(255, 255, 255);
 
-    int16_t frame = 0;
+    int8_t frame = 0;
 
     while (true)
     {
