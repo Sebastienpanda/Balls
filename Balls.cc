@@ -31,6 +31,7 @@ int main()
         float dx;
         float dy;
         uint16_t pen;
+        bool circle;
     };
 
     std::vector<pt> shapes;
@@ -43,6 +44,7 @@ int main()
         shape.dx = float(rand() % 255) / 64.0f;
         shape.dy = float(rand() % 255) / 64.0f;
         shape.pen = graphics.create_pen(rand() % 255, rand() % 255, rand() % 255);
+        shape.circle = (rand() % 2) == 0;
         shapes.push_back(shape);
     }
 
@@ -51,8 +53,12 @@ int main()
     Pen BG = graphics.create_pen(120, 40, 60);
     Pen WHITE = graphics.create_pen(255, 255, 255);
 
+    int16_t frame = 0;
+
     while (true)
     {
+        frame++;
+
         if (button_a.raw())
             text_location.x -= 1;
         if (button_b.raw())
@@ -92,11 +98,17 @@ int main()
             }
 
             graphics.set_pen(shape.pen);
-            graphics.circle(Point(shape.x, shape.y), shape.r);
+
+            if (shape.circle)
+                graphics.circle(Point(shape.x, shape.y), shape.r);
+            else
+                graphics.rectangle(Rect((int32_t)(shape.x - shape.r), (shape.y - shape.r), (shape.r * 2), (shape.r * 2)));
         }
 
         graphics.set_pen(WHITE);
-        graphics.text("Hello Nantsa", text_location, 320);
+        char buf[200];
+        snprintf(buf, sizeof buf, "frame %d", frame);
+        graphics.text(buf, text_location, 320);
 
         st7789.update(&graphics);
     }
