@@ -35,7 +35,7 @@ int main()
     };
 
     std::vector<pt> shapes;
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10; i++)
     {
         pt shape;
         shape.x = rand() % graphics.bounds.w;
